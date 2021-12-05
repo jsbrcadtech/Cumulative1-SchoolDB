@@ -10,10 +10,18 @@
         <input type="submit" value="Search" />
     </form>
 
+    <div>
+        <a href="/Teacher/NewTeacher">Add a New Teacher</a>
+    </div>
+
+
+
     @foreach (var teacher in Model)
     {
         <div class="listitems">
-            <div class="showcontainer"><a href="/Teacher/Show/@teacher.TeacherId">@teacher.TeacherFname @teacher.TeacherLname</a></div>
+            <div class="showcontainer">
+            <a href="/Teacher/Show/@teacher.TeacherId">@teacher.TeacherFname @teacher.TeacherLname</a>
+            </div>
         </div>
 
 

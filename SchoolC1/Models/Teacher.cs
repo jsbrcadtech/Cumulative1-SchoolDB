@@ -12,6 +12,8 @@ namespace SchoolC1.Models
         public int TeacherId;
         public string TeacherFname;
         public string TeacherLname;
+        public List<Courses> CoursesList;
 
     }
+
 }

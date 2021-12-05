@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using SchoolC1.Models;
+using System.Diagnostics;
 
 namespace SchoolC1.Controllers
 {
@@ -17,18 +18,73 @@ namespace SchoolC1.Controllers
         //GET : /Teacher/List
         public ActionResult List(string SearchKey = null)
         {
-            TeacherDataController controller = new TeacherDataController();
-            IEnumerable<Teacher> Teachers = controller.ListTeachers(SearchKey);
+            TeacherDataController Controller = new TeacherDataController();
+            IEnumerable<Teacher> Teachers = Controller.ListTeachers(SearchKey);
             return View(Teachers);
         }
 
         //GET : /Teacher/Show/{id}
         public ActionResult Show(int id)
         {
-            TeacherDataController controller = new TeacherDataController();
-            Teacher NewTeacher = controller.FindTeacher(id);
+            TeacherDataController Controller = new TeacherDataController();
+            Teacher NewTeacher = Controller.FindTeacher(id);
 
             return View(NewTeacher);
         }
+        //GET: Teacher/New
+        [HttpGet]
+        [Route("Teacher/NewTeacher")]
+
+        public ActionResult NewTeacher()
+        {
+            return View();
+
+        }
+
+        //POST : Teacher/Create
+        [HttpPost]
+        [Route("Teacher/Create")]
+        public ActionResult Create(string TeacherFname, string TeacherLname)
+        {
+            // I want to create a teacher
+            Debug.WriteLine("Im add a" + TeacherFname + " and a " + TeacherLname);
+
+            TeacherDataController Controller = new TeacherDataController();
+
+            Teacher NewTeacher = new Teacher();
+            NewTeacher.TeacherFname = TeacherFname;
+            NewTeacher.TeacherLname = TeacherLname;
+
+            Controller.AddTeacher(NewTeacher);
+
+
+            // go back to the list6 of teachers 
+            return RedirectToAction("List");
+
+        }
+
+        //GET : DeleteConfirm/{id}
+        [HttpGet]
+        [Route("Teacher/Create")]
+        public ActionResult DeleteConfirm(int id)
+        {
+
+            // get info about Teacher to confirm delete
+            TeacherDataController Controller = new TeacherDataController();
+            Teacher NewTeacher = Controller.FindTeacher(id);
+
+            return View(NewTeacher);
+        }
+
+        //POST : Teacher/Delete{id}
+        public ActionResult Delete(int id)
+        {
+            TeacherDataController Controller = new TeacherDataController();
+            Controller.DeleteTeacher(id);
+
+
+            return RedirectToAction("List");
+        }
+
     }
 }
