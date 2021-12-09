@@ -6,12 +6,13 @@ using System.Net.Http;
 using System.Web.Http;
 using SchoolC1.Models;
 using MySql.Data.MySqlClient;
+using System.Diagnostics;
 
 
 
 namespace SchoolC1.Controllers
 {
-    public class TeacherDataController : ApiController
+    public class TeacherBusiness : ApiController
     {
         // Database context class to access MySQL Database.
         private SchoolDbContext School = new SchoolDbContext();
@@ -52,16 +53,36 @@ namespace SchoolC1.Controllers
             //Loop Through Each Row the Result Set
             while (ResultSet.Read())
             {
-                //Access Column information by the DB column name as an index
-                /*                int TeacherId = (int)ResultSet["teacherid"];
-                                string TeacherFname = (string)ResultSet["teacherfname"];
-                                string TeacherLname = (string)ResultSet["teacherlname"];*/
-
 
                 Teacher NewTeacher = new Teacher();
                 NewTeacher.TeacherId = (int)ResultSet["teacherid"];
                 NewTeacher.TeacherFname = (string)ResultSet["teacherfname"];
                 NewTeacher.TeacherLname = (string)ResultSet["teacherlname"];
+                if (ResultSet.IsDBNull(ResultSet.GetOrdinal("salary")))
+                {
+                    NewTeacher.TeacherSalary = null;
+                }
+                else
+                {
+                    NewTeacher.TeacherSalary = ResultSet.GetDecimal("salary");
+                }
+                if (ResultSet.IsDBNull(ResultSet.GetOrdinal("hiredate")))
+                {
+                    NewTeacher.TeacherHireDate = null;
+                }
+                else
+                {
+                    NewTeacher.TeacherHireDate = ResultSet.GetDateTime("hiredate").ToString(string.Format("dd/MM/yyyy"));
+                }
+                if (ResultSet.IsDBNull(ResultSet.GetOrdinal("employeenumber")))
+                {
+                    NewTeacher.TeacherEmployeeNumber = null;
+                }
+                else
+                {
+                    NewTeacher.TeacherEmployeeNumber = ResultSet.GetString("employeenumber");
+                }
+
 
 
                 //Add the Teacher Name to the List
@@ -98,15 +119,33 @@ namespace SchoolC1.Controllers
             while (ResultSet.Read())
             {
                 //Access Column information by the DB column name as an index
-                int TeacherId = (int)ResultSet["teacherid"];
-                string TeacherFname = (string)ResultSet["teacherfname"];
-                string TeacherLname = (string)ResultSet["teacherlname"];
-
-
-                NewTeacher.TeacherId = TeacherId;
-                NewTeacher.TeacherFname = TeacherFname;
-                NewTeacher.TeacherLname = TeacherLname;
-
+                NewTeacher.TeacherId = (int)ResultSet["teacherid"];
+                NewTeacher.TeacherFname = (string)ResultSet["teacherfname"];
+                NewTeacher.TeacherLname = (string)ResultSet["teacherlname"];
+                if (ResultSet.IsDBNull(ResultSet.GetOrdinal("salary")))
+                {
+                    NewTeacher.TeacherSalary = null;
+                }
+                else
+                {
+                    NewTeacher.TeacherSalary = ResultSet.GetDecimal("salary");
+                }
+                if (ResultSet.IsDBNull(ResultSet.GetOrdinal("hiredate")))
+                {
+                    NewTeacher.TeacherHireDate = "";
+                }
+                else
+                {
+                    NewTeacher.TeacherHireDate = ResultSet.GetDateTime("hiredate").ToString(string.Format("dd/MM/yyyy"));
+                }
+                if (ResultSet.IsDBNull(ResultSet.GetOrdinal("employeenumber")))
+                {
+                    NewTeacher.TeacherEmployeeNumber = null;
+                }
+                else
+                {
+                    NewTeacher.TeacherEmployeeNumber = ResultSet.GetString("employeenumber");
+                }
             }
 
 
@@ -117,26 +156,54 @@ namespace SchoolC1.Controllers
         /// Adds a teacher into the system 
         /// </summary>
         /// <param name="NewTeacher">Teacher object</param>
-        public void AddTeacher(Teacher NewTeacher)
+        public void AddTeacher(string TeacherFname, string TeacherLname,
+            decimal? TeacherSalary, string TeacherEmployeeNumber)
         {
+            inputValidation(TeacherFname, TeacherLname,
+            TeacherSalary, TeacherEmployeeNumber);
+
 
             //Create an instance of a connection
             MySqlConnection Conn = School.AccessDatabase();
 
             //Open the connection between the web server and database
             Conn.Open();
-            string query = "insert into teachers (teacherfname, teacherlname) values (@fname,@lname)";
+            string query = "insert into teachers (teacherfname, teacherlname, salary, hiredate, employeenumber)" +
+                " values (@fname,@lname,@salary,@hiredate,@employeenumber)";
 
             //Establish a new command (query) for our database
             MySqlCommand cmd = Conn.CreateCommand();
             cmd.CommandText = query;
-            cmd.Parameters.AddWithValue("@fname", NewTeacher.TeacherFname);
-            cmd.Parameters.AddWithValue("@lname", NewTeacher.TeacherLname);
+            cmd.Parameters.AddWithValue("@fname", TeacherFname);
+            cmd.Parameters.AddWithValue("@lname", TeacherLname);
+            cmd.Parameters.AddWithValue("@salary", TeacherSalary);
+            cmd.Parameters.AddWithValue("@hiredate", DateTime.Now.ToString(string.Format("yyyy/MM/dd")));
+            cmd.Parameters.AddWithValue("@employeenumber", TeacherEmployeeNumber);
 
             cmd.ExecuteNonQuery();
 
             Conn.Close();
 
+        }
+        private void inputValidation(string TeacherFname, string TeacherLname,
+            decimal? TeacherSalary, string TeacherEmployeeNumber)
+        {
+            if (String.IsNullOrEmpty(TeacherFname))
+            {
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+            if (String.IsNullOrEmpty(TeacherLname))
+            {
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+            if (TeacherSalary == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+            if (String.IsNullOrEmpty(TeacherEmployeeNumber))
+            {
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
         }
         /// <summary>
         /// Deletes a teacher in the system by it's primary key 

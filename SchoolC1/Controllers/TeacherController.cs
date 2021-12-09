@@ -18,7 +18,7 @@ namespace SchoolC1.Controllers
         //GET : /Teacher/List
         public ActionResult List(string SearchKey = null)
         {
-            TeacherDataController Controller = new TeacherDataController();
+            TeacherBusiness Controller = new TeacherBusiness();
             IEnumerable<Teacher> Teachers = Controller.ListTeachers(SearchKey);
             return View(Teachers);
         }
@@ -26,7 +26,7 @@ namespace SchoolC1.Controllers
         //GET : /Teacher/Show/{id}
         public ActionResult Show(int id)
         {
-            TeacherDataController Controller = new TeacherDataController();
+            TeacherBusiness Controller = new TeacherBusiness();
             Teacher NewTeacher = Controller.FindTeacher(id);
 
             return View(NewTeacher);
@@ -44,18 +44,15 @@ namespace SchoolC1.Controllers
         //POST : Teacher/Create
         [HttpPost]
         [Route("Teacher/Create")]
-        public ActionResult Create(string TeacherFname, string TeacherLname)
+        public ActionResult Create(string TeacherFname, string TeacherLname,
+            decimal? TeacherSalary, string TeacherEmployeeNumber)
         {
-            // I want to create a teacher
-            Debug.WriteLine("Im add a" + TeacherFname + " and a " + TeacherLname);
 
-            TeacherDataController Controller = new TeacherDataController();
+            TeacherBusiness Controller = new TeacherBusiness();
 
-            Teacher NewTeacher = new Teacher();
-            NewTeacher.TeacherFname = TeacherFname;
-            NewTeacher.TeacherLname = TeacherLname;
 
-            Controller.AddTeacher(NewTeacher);
+            Controller.AddTeacher(TeacherFname, TeacherLname,
+            TeacherSalary, TeacherEmployeeNumber);
 
 
             // go back to the list6 of teachers 
@@ -70,7 +67,7 @@ namespace SchoolC1.Controllers
         {
 
             // get info about Teacher to confirm delete
-            TeacherDataController Controller = new TeacherDataController();
+            TeacherBusiness Controller = new TeacherBusiness();
             Teacher NewTeacher = Controller.FindTeacher(id);
 
             return View(NewTeacher);
@@ -79,7 +76,7 @@ namespace SchoolC1.Controllers
         //POST : Teacher/Delete{id}
         public ActionResult Delete(int id)
         {
-            TeacherDataController Controller = new TeacherDataController();
+            TeacherBusiness Controller = new TeacherBusiness();
             Controller.DeleteTeacher(id);
 
 

@@ -8,7 +8,24 @@
 <a class="returnlink" href="/Teacher/List">Back To Teachers</a>
 <div id="show-container">
 
-    <h1>@Model.TeacherFname @Model.TeacherLname</h1>
+    <h1>Teacher: @Model.TeacherFname @Model.TeacherLname</h1>
+    <h3>
+        Salary: $
+        @if (@Model.TeacherSalary != null)
+        {
+            @Model.TeacherSalary
+
+        }
+    </h3>
+    <h3>Hire date: @Model.TeacherHireDate</h3>
+    <h3>
+        Employee Number:
+        @if (@Model.TeacherEmployeeNumber != null)
+        {
+            @Model.TeacherEmployeeNumber
+
+        }
+    </h3>
     <a href="/Teacher/DeleteConfirm/@Model.TeacherId">Delete Teacher</a>
 
 </div>

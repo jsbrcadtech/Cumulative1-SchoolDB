@@ -9,10 +9,12 @@ namespace SchoolC1.Models
     {
 
         // The following fields define a Teacher 
-        public int TeacherId;
-        public string TeacherFname;
-        public string TeacherLname;
-        public List<Courses> CoursesList;
+        public int TeacherId { get; set; }
+        public string TeacherFname { get; set; }
+        public string TeacherLname { get; set; }
+        public decimal? TeacherSalary { get; set; }
+        public string TeacherHireDate { get; set; }
+        public string TeacherEmployeeNumber { get; set; }
 
     }
 
