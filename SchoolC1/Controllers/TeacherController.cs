@@ -18,7 +18,7 @@ namespace SchoolC1.Controllers
         //GET : /Teacher/List
         public ActionResult List(string SearchKey = null)
         {
-            TeacherBusiness Controller = new TeacherBusiness();
+            TeacherDataController Controller = new TeacherDataController();
             IEnumerable<Teacher> Teachers = Controller.ListTeachers(SearchKey);
             return View(Teachers);
         }
@@ -26,7 +26,7 @@ namespace SchoolC1.Controllers
         //GET : /Teacher/Show/{id}
         public ActionResult Show(int id)
         {
-            TeacherBusiness Controller = new TeacherBusiness();
+            TeacherDataController Controller = new TeacherDataController();
             Teacher NewTeacher = Controller.FindTeacher(id);
 
             return View(NewTeacher);
@@ -48,14 +48,14 @@ namespace SchoolC1.Controllers
             decimal? TeacherSalary, string TeacherEmployeeNumber)
         {
 
-            TeacherBusiness Controller = new TeacherBusiness();
+            TeacherDataController Controller = new TeacherDataController();
 
 
             Controller.AddTeacher(TeacherFname, TeacherLname,
             TeacherSalary, TeacherEmployeeNumber);
 
 
-            // go back to the list6 of teachers 
+            // Return to the list of teachers 
             return RedirectToAction("List");
 
         }
@@ -67,7 +67,7 @@ namespace SchoolC1.Controllers
         {
 
             // get info about Teacher to confirm delete
-            TeacherBusiness Controller = new TeacherBusiness();
+            TeacherDataController Controller = new TeacherDataController();
             Teacher NewTeacher = Controller.FindTeacher(id);
 
             return View(NewTeacher);
@@ -76,7 +76,7 @@ namespace SchoolC1.Controllers
         //POST : Teacher/Delete{id}
         public ActionResult Delete(int id)
         {
-            TeacherBusiness Controller = new TeacherBusiness();
+            TeacherDataController Controller = new TeacherDataController();
             Controller.DeleteTeacher(id);
 
 

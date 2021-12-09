@@ -12,7 +12,7 @@ using System.Diagnostics;
 
 namespace SchoolC1.Controllers
 {
-    public class TeacherBusiness : ApiController
+    public class TeacherDataController : ApiController
     {
         // Database context class to access MySQL Database.
         private SchoolDbContext School = new SchoolDbContext();
@@ -208,7 +208,7 @@ namespace SchoolC1.Controllers
         /// <summary>
         /// Deletes a teacher in the system by it's primary key 
         /// </summary>
-        /// <param name="id">the primary key pf the teacher</param>
+        /// <param name="id">the primary key of the teacher</param>
         public void DeleteTeacher(int id)
         {
             //Create an instance of a connection
