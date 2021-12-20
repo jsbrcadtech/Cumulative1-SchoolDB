@@ -1,14 +1,16 @@
-﻿h1{
-    color:Black;
+﻿h1 {
+    color: Black;
+}
 
+h2 {
+    font-size: 1em;
 }
-h2{
-    font-size:1em;
+
+p {
+    font-size: 1.5em;
+    color: black;
 }
-p{
-    font-size:1.5em;
-    color:black;
-}
+
 body {
     padding-top: 50px;
     padding-bottom: 20px;
@@ -18,29 +20,34 @@ body {
     padding-left: 15px;
     padding-right: 15px;
 }
+
 input,
 select,
 textarea {
     max-width: 280px;
 }
-.returnlink {
-    text-align: right;
-    margin-top: 30px;
+
+.nav{
+    display:block;
     float: right;
-    font-weight:bold;
-    color:red;
+    margin-right: 20px;
+    color:darkblue;
 }
 
-#container{
+
+
+#container {
     width: 80%;
     margin: 0 auto;
-    margin-top: 80px; 
+    margin-top: 80px;
 }
+
 .showcontainer {
     width: 100%;
     margin: 0;
 }
+
 .listitems {
-    margin:10px auto;
-    font-size:1.5em;
+    margin: 10px auto;
+    font-size: 1.5em;
 }

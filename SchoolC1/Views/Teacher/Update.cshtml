@@ -1,0 +1,38 @@
+﻿@model SchoolC1.Models.Teacher
+@{
+    ViewBag.Title = "Update";
+}
+<div id="containershow">
+    <h2>Update Teacher</h2>
+    <nav>
+        <a class="returnlink" href="/Teacher/Show/@Model.TeacherId">Back</a>
+
+    </nav>
+
+    <form method="POST" action="/Teacher/Update">
+        <div class="input-field">
+            <label>First Name:</label>
+            <input type="text" name="TeacherFname" id="TeacherFname" value="@Model.TeacherFname" />
+        </div>
+
+        <div>
+            <label>Last Name:</label>
+            <input type="text" name="TeacherLname" id="TeacherLname" value="@Model.TeacherLname" />
+        </div>
+        <div class="input-field">
+            <label>Salary:</label>
+            <input type="text" name="TeacherSalary" id="TeacherSalary" value="@Model.TeacherSalary" />
+        </div>
+
+        <div class="input-field">
+            <label>Employee Number:</label>
+            <input type="text" name="TeacherEmployeeNumber" id="TeacherEmployeeNumber" value="@Model.TeacherEmployeeNumber" />
+        </div>
+        <div class="input-field">
+            <label>Hire Date:</label>
+            <input type="text" name="TeacherHireDate" id="TeacherHireDate" value="@Model.TeacherHireDate" />
+        </div>
+        <input type="hidden" name="id" id="id" value="@Model.TeacherId" />
+        <input type="submit" value="Update Teacher" />
+    </form>
+</div>

@@ -111,7 +111,11 @@ namespace SchoolC1.Controllers
             MySqlCommand cmd = Conn.CreateCommand();
 
             //SQL QUERY
-            cmd.CommandText = "Select * from Teachers where teacherid = " + id;
+            string query = "Select * from Teachers where teacherid=@id";
+            cmd.CommandText = query;
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.ExecuteNonQuery();
+
 
             //Gather Result Set of Query into a variable
             MySqlDataReader ResultSet = cmd.ExecuteReader();
@@ -136,7 +140,7 @@ namespace SchoolC1.Controllers
                 }
                 else
                 {
-                    NewTeacher.TeacherHireDate = ResultSet.GetDateTime("hiredate").ToString(string.Format("dd/MM/yyyy"));
+                    NewTeacher.TeacherHireDate = ResultSet.GetDateTime("hiredate").ToString(string.Format("yyyy/MM/dd"));
                 }
                 if (ResultSet.IsDBNull(ResultSet.GetOrdinal("employeenumber")))
                 {
@@ -227,6 +231,37 @@ namespace SchoolC1.Controllers
 
             Conn.Close();
 
+        }
+
+        public void Update(int id, Teacher TeacherInfo)
+        {
+            //Create an instance of a connection
+            MySqlConnection Conn = School.AccessDatabase();
+
+            //Open the connection between the web server and database
+            Conn.Open();
+            string query = "update teachers " +
+                "set teacherfname=@fname," +
+                "teacherlname=@lname," +
+                "salary=@salary," +
+                "hiredate=@hiredate," +
+                "employeenumber=@employeenumber " +
+                "where teacherid=@TeacherId";
+
+
+            //Establish a new command (query) for our database
+            MySqlCommand cmd = Conn.CreateCommand();
+            cmd.CommandText = query;
+            cmd.Parameters.AddWithValue("@fname", TeacherInfo.TeacherFname);
+            cmd.Parameters.AddWithValue("@lname", TeacherInfo.TeacherLname);
+            cmd.Parameters.AddWithValue("@salary", TeacherInfo.TeacherSalary);
+            cmd.Parameters.AddWithValue("@hiredate", DateTime.Parse(TeacherInfo.TeacherHireDate).ToString(string.Format("yyyy/MM/dd")));
+            cmd.Parameters.AddWithValue("@employeenumber", TeacherInfo.TeacherEmployeeNumber);
+            cmd.Parameters.AddWithValue("@TeacherId", id);
+
+            cmd.ExecuteNonQuery();
+
+            Conn.Close();
         }
     }
 

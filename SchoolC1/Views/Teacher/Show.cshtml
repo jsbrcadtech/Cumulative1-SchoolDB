@@ -5,8 +5,19 @@
     ViewBag.Title = "Show";
 }
 
-<a class="returnlink" href="/Teacher/List">Back To Teachers</a>
+
+
 <div id="show-container">
+
+    <nav id="nav">
+        <a href="/Teacher/DeleteConfirm/@Model.TeacherId">Delete Teacher</a>
+        <a href="/Teacher/Update/@Model.TeacherId">Update</a>
+        <a href="/Teacher/List">Back To Teachers</a>
+
+    </nav>
+
+
+
 
     <h1>Teacher: @Model.TeacherFname @Model.TeacherLname</h1>
     <h3>
@@ -25,8 +36,12 @@
             @Model.TeacherEmployeeNumber
 
         }
+
     </h3>
-    <a href="/Teacher/DeleteConfirm/@Model.TeacherId">Delete Teacher</a>
+
+
+
+
 
 </div>
 
